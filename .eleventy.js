@@ -1,6 +1,5 @@
 const markdownIt = require("markdown-it");
 const pluginSyntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight");
-const pluginTOC = require('eleventy-plugin-toc')
 const { EleventyRenderPlugin } = require("@11ty/eleventy");
 
 module.exports = function(eleventyConfig) {
@@ -24,14 +23,32 @@ module.exports = function(eleventyConfig) {
     return md.render(content);
   });
 
-  eleventyConfig.addPlugin(pluginTOC)
   eleventyConfig.addPlugin(pluginSyntaxHighlight);
 
   eleventyConfig.addWatchTarget('src/style.css')
   eleventyConfig.addPassthroughCopy({ 'src/style.css': 'style.css' })
   eleventyConfig.addPassthroughCopy({ 'node_modules/the-new-css-reset/css/reset.css': 'reset.css' })
 
-  
+
+
+  // ONLY publish DONE articles 
+  eleventyConfig.addCollection("production_posts", function(collectionApi) {
+    // For the final build we skip WIP posts
+    if (process.env.ELEVENTY_ENV == "production"){
+      return collectionApi.getFilteredByTags("posts", "public");
+    }
+    return collectionApi.getFilteredByTags("posts"); 
+  });
+
+  eleventyConfig.addPlugin(
+    require("eleventy-plugin-ignore"),
+    {
+      // template ignored if function returns true
+      ignore: (data) => process.env.ELEVENTY_ENV === "production" && !(data.tags?.includes('public')) ,
+      // check all templates ending with these extensions
+      templateFormats: ["md"]
+    }
+  );
 
   return {
     markdownTemplateEngine: "njk",

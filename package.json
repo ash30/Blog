@@ -27,6 +27,7 @@
     "markdown-it-footnote": "^3.0.3"
   },
   "dependencies": {
+    "eleventy-plugin-ignore": "^0.1.6",
     "markdown-it-emoji": "^2.0.2",
     "normalize.css": "^8.0.1",
     "the-new-css-reset": "^1.7.3"

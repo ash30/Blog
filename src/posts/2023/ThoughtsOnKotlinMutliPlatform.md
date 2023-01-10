@@ -1,6 +1,6 @@
 ---
 title: Thoughts on Kotlin Multiplatform (Draft)
-tags: posts
+tags: [posts]
 date: 2023-01-05
 ---
 

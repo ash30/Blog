@@ -1,6 +1,6 @@
 ---
 title: Hello World (Again...)  
-tags: posts
+tags: [posts, public]
 date: 2022-12-01
 ---
 
