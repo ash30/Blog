@@ -1,6 +1,6 @@
 ---
 title: Project Specific VSCode Setup with Nix-shell
-tags: [posts]
+tags: [posts, public]
 date: 2022-12-01
 ---
 <span class="firstcharacter">D</span>ependencies, dependencies, dependencies! There's no escaping the cooperative existence we 'enjoy' in our code bases today and they really deserves a better mantra than the one I've just furnished them with.
