@@ -27,6 +27,7 @@ module.exports = function(eleventyConfig) {
 
   eleventyConfig.addWatchTarget('src/style.css')
   eleventyConfig.addPassthroughCopy({ 'src/style.css': 'style.css' })
+  eleventyConfig.addPassthroughCopy({ 'src/CNAME': 'CNAME' })
   eleventyConfig.addPassthroughCopy({ 'node_modules/the-new-css-reset/css/reset.css': 'reset.css' })
 
 
