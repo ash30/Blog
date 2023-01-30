@@ -1,54 +1,49 @@
 ---
-title: Thoughts on Kotlin Multiplatform (Draft)
+title: Thoughts on Kotlin Multiplatform Part 1
 tags: [posts, public]
 date: 2023-01-05
 ---
 
-<span class="firstcharacter">A</span>lso known as: My year in review! I recently helped create the content for a talk[^talk] presented by my colleague Zachary Powell (@devwithzachary). It was the story of how our team migrated an existing client sdk to use KMP internally. I'm immensely proud of what we delivered and I wanted to take the time to expand on some of the points raised within the talk and figured this quiet corner of the internet offers enough space to tame the minutiae.
+<span class="firstcharacter">A</span>lso known as: My year in review! I recently helped create the content for a talk[^talk] presented by my colleague Zachary Powell (@devwithzachary). It was the story of how our team migrated an existing public sdk to use KMP internally. I'm immensely proud of what we delivered and I wanted to take the time to expand on some of the points raised within the talk and figured this quiet corner of the internet offers enough space to tame the minutiae.
 
 [^talk]: https://developer.vonage.com/blog/22/10/04/devcity-comes-to-london
 
 The standard disclaimer first though: any article that follows a teams experience with 'X' technology is obviously biased and subjective by definition so take everything here with a healthy pinch of salt. Further: an 'experience using kotlin' is an evolving one, so to be precise - these thoughts were based on versions 1.6 to 1.7. So with all that out of the way, and in no particular order, some points I thought deserved expanding.
 
-## Embracing the 'Other' Side
-<!-- Receptiveness to KMP definitely falls into two obvious camps: developers who work predominantly on Android [^dev] think KMP is an excellent idea, or atleast a worth while experiment. For developers who spend most of their time in XCode, there is an immediate skepticism when being forced embrace this new technology.
+## Removing the Engineering Silos
 
-To successfully introduce KMP into any project, its ultimately about alleviating the fears around the impact it will have on the iOS code base. 
+Change is hard and technical inertia is a thing. Convincing a group of iOS developers that there is life outside the boundary of the apple walled garden is not as easy of a sell as it logically should be - who doesn't want grow as a developer and think beyond the silo of a single mobile platform? Sadly a lot of people! And you can't really blame them either, the tech industry generally encourages people to foster this identity coupled inexplicably to a single 'cause'.[^1]
 
+[^1]: Developers in their eternal need to anarok gleefully short change themselves - swapping their freedom for servitude to a particular stack or platform. I despair...  
 
+KMP allows developer to take ownership of the 'mobile' experience in a way they traditionally never could. The task of keeping two disparate code bases is not exactly Sisyphean, but it does rob the developer of precious thinking space and creates a bunch of meaningless work. Don't get me wrong, I'm not conveniently forgetting about all the other attempts to do cross platform, but for the first time KMP offers an approach with minimal cost from upskilling AND retooling!
 
-KMP allows developer to take ownership of the 'mobile' experience, not just silo them selves to one platform and embracing this new found responsibility is key to enabling KMP to flourish. The idea is to not relegate one platform to an after though.
+More than just functional efficiency of sharing code, KMP can change the culture of a dev team - we can all be product engineers now, focused on a consistent user facing product now that we've halved the day to day grunt work.
 
-But what does this practically mean?
+## Embrace the MonoRepo
+One of the natural / obvious consequences of shared code is that the simplest change to the shared api WILL break dependant code across all platforms unless you update the call site.
 
+The default approach is to follow the traditional managment strategy of semantic versioned packaging - so that downstreams can control when they update.
+That would require us to publish our shared code as a maven package/cocoapod and have consuming projects control their dependencies as normal.
 
- Development has to take into account both platforms and this generally means compromise. Not all  
- -->
+But all of that is a lot of overhead and slightly works against the 'silo revolution' I mentioned previously. The alternative, and the approach we took, is to utilize a monorepo. Instead of formalizing the boundary interface via packaging, we 'exercise' them via compiling the graph of changed dependencies. This eats more cycles when it comes to build time, but its brings us closer to the truth which ultimately care for - which is 'does it compile/blend'.
 
-
-
-
-[^dev]: A deliberate choice of wording, I hate the expression 'Android Developers' and 'iOS Developers'. It reinforces a false dichotomy between platforms which IMHO helps breed insular mobile developers.
-
-
-
-
-## MonoRepo
-<!-- One of the natural/obvious consequences of shared code is that the simpliest change to the public api WILL break depedant code across all platforms unless you update the call site.
-
-
-When you work across platforms instead of silo'd - you need feedback on your changes across both platforms no matter how trivial the change. 
-
-Multi module gradle projects allow the compiler to catch api changes for 'down stream' modules but by default there is no equivalent for the iOS part of the project. 
-
-The obvious 
-
-
-
-It seems an obvious choice for KMP projects to go down the route of monorepo. Since the KMP library will be shared between the two platforms, there's an obvious advantage.
- -->
 
 ## Keeping KMP Internal 
+The API boundary of a library is a contract between you and the outside world. To 'delegate' this indirectly to the cross platform translation of the kotlin compiler feels like a leap to far... for now at least. This is a point that hit us particluarly hard since we are shipping API's for other developers to consume.
+
+We ended up doing a thin wrapper layer on top of any common code we exposed publicly which provides more stability to the interface (ie. no chance that a kotlin compiler change would affect the external api) at the expense of increased platform specfiic code. This is definitely a trade off but one which is minimised if following good api practisies like minimal surface area. And you do retain some of the benefits of code sharing - because busines logic remains shared and platform specific code is reduced to type system boiler plate in 99% of cases.
+
+In future, as our libraries grow and the API expands in complexity, I hope to come up with alternative solutions to the mandatory wrapping we have enforced but for now its an adequate tradeoff we can live with. 
+...
+
+
+
+
+In Part 2 I'll explore the evolution of our memory management with KMP and how to plan the migration of an existing code base.
+
+See you soon!
+
 
 <!-- The translation of data types and signatures is functional but a little rough around the edges. Additionally, with KMP being slightly experimental still, it seems the best short term plan was to allow KMP to dictate our public API within the iOS code base.
 
@@ -60,8 +55,8 @@ Its not a very sustainable practise: (manually) wrapping all the generated types
 
 In our case, for now we have got away with manual wrappers because we don't have to much api surface area exposed. There will be a point in future we this become unsustainable and we will either have to look at auto generating the wrappers ( KSP potentially? ) or hope KMP has solidified enough to be apart of the public API :crossed_fingers: ... -->
 
-
+<!-- 
 ## Cautious and Incremental Adoption
 
 
-## Memory Model                                   
+## Memory Model                                    -->

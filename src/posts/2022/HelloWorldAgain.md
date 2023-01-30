@@ -19,7 +19,7 @@ In general I believe hireability boils down to:
 1. Show above average 'chops' ( What I coin as 'the Yogi Bear Principle' ) 
 2. More importantly: Don't be an A**hole [^foo]
 
-Which is generally just good advice for life! And I hope now with delusion of authority put to the sword, I can speak openly and demonstrate them both in spades.
+Which is generally just good advice for life! And I hope now with delusion of authority put to the sword, I can speak openly and demonstrate them.
 
 [^foo]: Disclaimer - I don't claim to have never failed here, but to err is human...
 
