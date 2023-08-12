@@ -1,3 +1,5 @@
+const { DateTime } = require("luxon");
+
 const markdownIt = require("markdown-it");
 const pluginSyntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight");
 const { EleventyRenderPlugin } = require("@11ty/eleventy");
@@ -28,9 +30,23 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addWatchTarget('src/style.css')
   eleventyConfig.addPassthroughCopy({ 'src/style.css': 'style.css' })
   eleventyConfig.addPassthroughCopy({ 'src/CNAME': 'CNAME' })
-  eleventyConfig.addPassthroughCopy({ 'node_modules/the-new-css-reset/css/reset.css': 'reset.css' })
+  //eleventyConfig.addPassthroughCopy({ 'node_modules/the-new-css-reset/css/reset.css': 'reset.css' })
+  eleventyConfig.addPassthroughCopy({ 'node_modules/@picocss/pico/css/pico.min.css': 'pico.css' })
 
+  eleventyConfig.addFilter('log', value => {
+    console.log(value)
+  })
 
+		// Filters
+   eleventyConfig.addFilter("readableDate", (dateObj, format, zone) => {
+   	// Formatting tokens for Luxon: https://moment.github.io/luxon/#/formatting?id=table-of-tokens
+   	return DateTime.fromJSDate(dateObj, { zone: zone || "utc" }).toFormat(format || "dd LLLL yyyy");
+   });
+   
+   eleventyConfig.addFilter('htmlDateString', (dateObj) => {
+   	// dateObj input: https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#valid-date-string
+   	return DateTime.fromJSDate(dateObj, {zone: 'utc'}).toFormat('yyyy-LL-dd');
+   });
 
   // ONLY publish DONE articles 
   eleventyConfig.addCollection("production_posts", function(collectionApi) {

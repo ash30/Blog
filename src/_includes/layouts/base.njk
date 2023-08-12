@@ -5,16 +5,27 @@
   <link href="https://unpkg.com/prismjs@1.20.0/themes/prism-okaidia.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/style.css"/>
+  <link rel="stylesheet" href="css/pico.min.css">
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 <body>
-    <div id="root">
-        <div id="header">
-            {% block header %}{% endblock %}
-        </div>
-        {% block aside %}{% endblock %}
-        <main>
-            {{ content | safe }}
-        </main>
-    </div>
+  <nav class="container-fluid">
+  <ul>
+    <li>
+      <a href="/" class="contrast"><strong>Ashley Arthur</strong></a
+      >
+    </li>
+  </ul>
+
+  <ul>
+    <li><a href="/archive">Archive</a></li>
+    <li><a href="https://github.com/ash30">Github</a></li>
+    <li><a href="https://uk.linkedin.com/in/ash30">Linkedin</a></li>
+  </ul>
+  </nav>
+  <main class="container">
+  	{% block header %}{% endblock %}
+  	{{ content | safe }} 
+  </main>
+
 </body>
