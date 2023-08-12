@@ -5,18 +5,36 @@
   <link href="https://unpkg.com/prismjs@1.20.0/themes/prism-okaidia.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/style.css"/>
+  <link rel="stylesheet" href="css/pico.min.css">
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 <body>
-    <div id="root">
-        <div id="header">
-            
-    <h1>Project Specific VSCode Setup with Nix-shell</h1>
+  <nav class="container-fluid">
+  <ul>
+    <li>
+      <a href="/" class="contrast"><strong>Ashley Arthur</strong></a
+      >
+    </li>
+  </ul>
 
-        </div>
-        
-        <main>
-            <p><span class="firstcharacter">D</span>ependencies, dependencies, dependencies! There's no escaping the cooperative existence we 'enjoy' in our code bases today and they really deserves a better mantra than the one I've just furnished them with.</p>
+  <ul>
+    <li><a href="/archive">Archive</a></li>
+    <li><a href="https://github.com/ash30">Github</a></li>
+    <li><a href="https://uk.linkedin.com/in/ash30">Linkedin</a></li>
+  </ul>
+  </nav>
+  <main class="container">
+  	
+<hgroup>
+<h1>
+
+Project Specific VSCode Setup with Nix-shell
+
+</h1>
+	<time datetime="2022-12-01">01 December 2022</time>
+</hgroup>
+
+  	<p><span class="firstcharacter">D</span>ependencies, dependencies, dependencies! There's no escaping the cooperative existence we 'enjoy' in our code bases today and they really deserves a better mantra than the one I've just furnished them with.</p>
 <p>They exist at all levels of the stack so unsurprisingly we have evolved numerous fractured sets of tools to deal with their management, twas ever the way! Some are definitely better than others, there are ecosystems infamous for the pain they have wrought upon the masses with what can be described, with the benefit of hindsight, as tooling oversight.<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup></p>
 <p>That's why I personally find Nix so appealing, the promise of a more unified solution that is independent of programming language or environment. I can use nix to manage my dependencies for Android development as equally as I can a cloud native micro service, for local dev setups all the way to production boxes. Whether the full gamut of usage is a good idea? I'm still yet to fully decide - being but an apprentice of Nix as of the time of writing.</p>
 <p>Like many who have trodden this path before though, its painfully obvious that Nix has its rough edges, more than enough to prevent truly wide scale adoption. But even so! the allure of what it promises is just so useful, I personally think its worth trying and so thats what I've done for last 6 months. I've been using it as my 'package manager' for local dev environments and its both enabled new workflows and squashed the problems of previous ones.</p>
@@ -34,7 +52,7 @@
 </li>
 </ol>
 </section>
+ 
+  </main>
 
-        </main>
-    </div>
 </body>
