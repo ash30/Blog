@@ -1,7 +1,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>index</title>
+  <title>Black Box Debugging iOS Binaries</title>
   <link href="https://unpkg.com/prismjs@1.20.0/themes/prism-okaidia.css" rel="stylesheet">
   <link rel="stylesheet" href="/style.css"/>
   <link rel="stylesheet" href="pico.min.css">
@@ -24,14 +24,16 @@
   </nav>
   <main class="container">
   	
-  	
-
-Latest:
 <hgroup>
-<h1>Black Box Debugging iOS Binaries</h1>
+<h1>
+
+Black Box Debugging iOS Binaries
+
+</h1>
 	<time datetime="2023-09-18">18 September 2023</time>
 </hgroup>
-<p>Like many other companies in the space, Vonage relies on libwebrtc in it's client-facing voice SDK. Just as I was going to take some leave, we had a peculiar issue pop up when we tried what we thought was a routine upgrade... our SDK was now causing App store uploads to fail!</p>
+
+  	<p>Like many other companies in the space, Vonage relies on libwebrtc in it's client-facing voice SDK. Just as I was going to take some leave, we had a peculiar issue pop up when we tried what we thought was a routine upgrade... our SDK was now causing App store uploads to fail!</p>
 <p>Ah, the joys of iOS development! For the uninitiated, getting your app onto the App Store involves navigating a series of infamous checks. One of the hurdles is a series of static analysis apple subjects your binary to once its been uploaded. Usually, Apple is on the ball, catching issues during compile time or, worst case, somewhere in the debug cycle. But sometimes, the checks come post-build. They are there to ensure system resources aren't abused in weird and wonderful ways. Unfortunately if you rely on 3rd party code like libwebrtc, you're on the hook if any of their code triggers a failure and you'll need to figure out what's changed.</p>
 <p>Well here's the trick: System APIs are dynamically linked on iOS<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup> so you can do a pretty good quick and dirty audit by viewing the unresolved symbols left in the app binary. Unzip the ipa and fire up the <code>nm</code> tool and you'll get output like the following.</p>
 <pre><code>&gt;&gt; nm app
@@ -60,7 +62,6 @@ Latest:
 </li>
 </ol>
 </section>
-
  
   </main>
 
