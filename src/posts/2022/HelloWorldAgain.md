@@ -4,23 +4,19 @@ tags: [posts, public]
 date: 2022-12-01
 ---
 
-<span class="firstcharacter">W</span>hen I began my last attempt at blogging, one of the main reasons behind the project was I was hell bent on proving my credibility. Why? It's the same reason there are hundreds of articles around the internet extolling the benefits of some inane feature of modern JS. Simply put: hireability! (Shameless) self promotion via content marketing is one of the ways we can impress onto others our 'worthiness' in terms of developer credentials.
+<span class="firstcharacter">W</span>hen I first began my attempt at blogging, one of the reasons behind the project was prove personal credibility. Self promotion via content marketing is a well defined     career hack for developers [^chat] and I was ready to join the legion of misguided devs extolling the benefits of some inane feature of modern JS.
 
-The project failed almost immediately though. Why? My mistake was to think credibility only comes from being right and being right ALL THE TIME is hard! And also a severe constraint on an author, it stifles expression and limits discussion to only what feels like safe subjects. If I wanted that, I could just spend more time at work [^jk]! Inevitably I ran out of enthusiasm and the project when to die in the lumberyard of unmaintained side projects. 
+[^chat]: Although Chat GPT is beginning to change the value proposition of writing and sharing articles sadly ... 
 
-[^jk]: Joking! 
+The project ultimately failed though. Why? I made the mistake to think credibility only comes from being correct and being correct ALL THE TIME is hard! And a severe constraint on an author as it limits discussion to only safe subjects. If I wanted that, I could just spend more time at work! [^jk] Inevitably I ran out of enthusiasm to write about anything.
 
-Well fast forward to 2023 and I'm attempting this blogging experiment again. The need to prove credibility still exists and I will plainly admit still a primary concern, so what makes me think its worth another go? Well, I realised I can be 'credibly wrong' and thats probably still a good place to land in most people's eyes.
+[^jk]: JK!  
 
-So what does this mean in terms of blogging? It means I'm going to write more about the 'journey' than dictate to you the 'right' way of doing things. The idea is worth more than the dictat! And there is value in being wrong if it helps illuminates the way forward.  So expect unfinished projects, possibly dubious but weakly held opinions and maybe some career musings if I feel like it would help anyone.
+Well its 2023 and I'm giving blogging another shot. While the need to prove credibility remains a concern, I've come to realize the value of being 'credibly wrong.' Admitting mistakes gracefully is a crucial life skill often overlooked in modern times as lets remember what it means to be hireable:
 
-In general I believe hireability boils down to:
+1. Above average 'chops' ( What I coin 'the Yogi Bear Principle' ) 
+2. Don't be an A**hole 
 
-1. Show above average 'chops' ( What I coin as 'the Yogi Bear Principle' ) 
-2. More importantly: Don't be an A**hole [^foo]
-
-Which is generally just good advice for life! And I hope now with delusion of authority put to the sword, I can speak openly and demonstrate them.
-
-[^foo]: Disclaimer - I don't claim to have never failed here, but to err is human...
+The world doesn't need another intolerable 'genius' so I'll aim for a balance of the two. What does this mean in terms of blogging? It means I'm going to write more about the 'journey' than dictate and moralise about the 'right' way of doing things. I'm hoping the joy of my new found freedom can help keep both of us engaged dear reader.
 
 
