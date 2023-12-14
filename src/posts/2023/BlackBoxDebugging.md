@@ -3,11 +3,11 @@ title: Black Box Debugging iOS Binaries
 tags: [posts, public]
 date: 2023-09-18
 ---
-Like many other companies in the space, vonage relies on libwebrtc in it's client-facing voice SDK. Just as I was going to take some leave, we had a peculiar issue pop up when we tried what we thought was a routine upgrade... our SDK was now causing App store uploads to fail! 
+Like many other companies in the space, Vonage relies on libwebrtc in it's client-facing voice SDK. Just as I was going to take some leave, we had a peculiar issue pop up when we tried what we thought was a routine upgrade... our SDK was now causing App store uploads to fail! 
 
 Ah, the joys of iOS development! For the uninitiated, getting your app onto the App Store involves navigating a series of infamous checks. One of the hurdles is a series of static analysis apple subjects your binary to once its been uploaded. Usually, Apple is on the ball, catching issues during compile time or, worst case, somewhere in the debug cycle. But sometimes, the checks come post-build. They are there to ensure system resources aren't abused in weird and wonderful ways. Unfortunately if you rely on 3rd party code like libwebrtc, you're on the hook if any of their code triggers a failure and you'll need to figure out what's changed.
 
-Well here's the trick: System APIs are dynamically linked on iOS[^1] so you can do a pretty good quick and dirty audit by viewing the unresolved symbols left in the app binary. Unzip the ipa and and fire up the `nm` tool and you'll get output like the following.
+Well here's the trick: System APIs are dynamically linked on iOS[^1] so you can do a pretty good quick and dirty audit by viewing the unresolved symbols left in the app binary. Unzip the ipa and fire up the `nm` tool and you'll get output like the following.
 
 [^1]: I assume its the case on most platforms...?
 
