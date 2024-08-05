@@ -6,8 +6,7 @@ date: 2024-04-25
 
 I've been reading the source of https://github.com/kirm/sip.js recently, and I stumbled upon a JS idiom which I had no idea about:
 
-
-<pre>
+```js
 function makeContextId(msg) {
   var via = msg.headers.via[0];
   return [via.params.branch, via.protocol, via.host, via.port, msg.headers['call-id'], msg.headers.cseq.seq];
@@ -16,7 +15,7 @@ function makeContextId(msg) {
 // ... 
 // Else where in the code 
 var ctx = contexts[makeContextId(msg)];
-</pre>
+```
 
 REF: https://github.com/kirm/sip.js/blob/master/proxy.js
 
@@ -26,17 +25,15 @@ and so the above code works, both marvellous and terrifying :)
 
 This is because the `toString` function of an array returns something useful:
 
-<pre>
+```js
 let list = [1,2,3,4,5]
 list.toString()
 >>> '1,2,3,4,5'
-</pre>
+```
 but beware, this is not always the case...
 
-<pre>
-<code>
+```js
 let obj = { a:1 }
 obj.toString()
 >>> '[object Object]'
-</code></pre>
-
+```

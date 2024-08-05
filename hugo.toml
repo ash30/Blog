@@ -3,6 +3,12 @@ languageCode = 'en-us'
 title = 'Ashley Arthur'
 theme = 'hugo-kiera'
 
+[author]
+name = "Ashley Arthur"
+github = "ash30"
+linkedin = "ash30"
+
+
 [markup]
   [markup.goldmark]
     [markup.goldmark.renderer]
