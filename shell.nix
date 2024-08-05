@@ -1,27 +1,18 @@
-let
-  pkgs = (import <nixpkgs> { 
-        config.allowUnfree = true;
-  });
-  extensions = (with pkgs.vscode-extensions; [ ms-python.python /* ... */ ])
-	++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
-	      ];
-  vscode = pkgs.vscode-with-extensions.override { vscodeExtensions = extensions; };
-in 
-pkgs.mkShell {
-    allowUnfree = true;
-    name = "node";
-    buildInputs = [
-        pkgs.nodejs-16_x
-        pkgs.jq
-    ];
-    nativeBuildInputs = [ 
-	vscode
-    ];
-    shellHook = ''
-        mkdir -p .nix-node
-        export PATH="$PWD/.nix-node/bin:$PATH"
-        npm config set prefix "$PWD/.nix-node/"
-        alias code="code --user-data-dir ~/Library/Application Support/code/user/ash"
-        
-    '';
+let pkgs = import (builtins.fetchTarball {
+  # Descriptive name to make the store path easier to identify
+  name = "nixpkgs-unstable";
+  # commit hash for 23.05
+  url = "https://github.com/nixos/nixpkgs/archive/68c9ed8bbed9dfce253cc91560bf9043297ef2fe.tar.gz";
+  # Hash obtained using `nix-prefetch-url --unpack <url>`
+  sha256 = "1zwwji3nhn9zdmck2bllqjbswsr7r30q8fbggw8y1j2ymsvz29jg";
+}) { localSystem = "aarch64-darwin"; };
+#parentShell = import ./base.nix;
+
+in
+pkgs.mkShell rec {
+  nativeBuildInputs = [
+    pkgs.hugo
+  ];
+
+
 }

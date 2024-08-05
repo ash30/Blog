@@ -1,8 +1,7 @@
----
-title: Hello World (Again...)  
-tags: [posts, public]
-date: 2022-12-01
----
++++
+title = "Hello World (Again...)"
+date = 2022-12-01T09:37:44+01:00
++++
 
 <span class="firstcharacter">W</span>hen I first began my attempt at blogging, one of the reasons behind the project was prove personal credibility. Self promotion via content marketing is a well defined     career hack for developers [^chat] and I was ready to join the legion of misguided devs extolling the benefits of some inane feature of modern JS.
 
@@ -17,6 +16,6 @@ Well its 2023 and I'm giving blogging another shot. While the need to prove cred
 1. Above average 'chops' ( What I coin 'the Yogi Bear Principle' ) 
 2. Don't be an A**hole 
 
-The world doesn't need another intolerable 'genius' so I'll aim for a balance of the two. What does this mean in terms of blogging? It means I'm going to write more about the 'journey' than dictate and moralise about the 'right' way of doing things. I'm hoping the joy of my new found freedom can help keep both of us engaged dear reader.
+The world doesn't need another intolerable 'genius' so I'll aim for a balance of the two. What does this mean in terms of blogging? It means I'm going to write more about the 'journey' than dictate and moralise about the 'right' way of doing things, a celebration of interesting ideas and place to experiment away from the weight of $DAY JOB life.
 
 

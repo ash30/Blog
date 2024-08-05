@@ -1,8 +1,11 @@
----
-title: Thoughts on Kotlin Multiplatform 
-tags: [posts, public]
-date: 2023-01-05
----
++++
+title = "Thoughts on Kotlin Multiplatform"
+date = 2023-01-05T09:37:44+01:00
+images = []
+tags = ["ios, kmp, kotlin"]
+categories = []
+draft = false
++++
 
 <span class="firstcharacter">A</span>lso known as: My year in review! I recently helped create the content for a talk[^talk] presented by my colleague Zachary Powell (@devwithzachary). It was the story of how our team migrated an existing public sdk to use KMP internally. I'm immensely proud of what we delivered and I wanted to take the time to expand on some of the points raised within the talk and figured this quiet corner of the internet offers enough space to tame the minutiae.
 

@@ -1,0 +1,9 @@
+baseURL = 'https://ashleyarthur.co.uk/'
+languageCode = 'en-us'
+title = 'Ashley Arthur'
+theme = 'hugo-kiera'
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
