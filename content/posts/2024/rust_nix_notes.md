@@ -32,7 +32,7 @@ exec -a "$0" @unwrapped@/bin/bindgen "$@" $sep $cxxflags @cincludes@ $NIX_CFLAGS
 ref: https://github.com/NixOS/nixpkgs/blob/master/pkgs/development/tools/rust/bindgen/wrapper.sh
 
 Bindgen accepts arbitrary arguments that will be forwarded directly to the compiler, so the wrapper passes `NIX_CFLAGS_COMPILE`
-which should have all the include paths for any dependencies within this nix build or shell. Hurradependantdependant  h!
+which should have all the include paths for any dependencies within this nix build or shell. Hurrah!
 
 ## Rust Package Src Changes
 
