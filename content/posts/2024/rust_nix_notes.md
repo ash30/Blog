@@ -1,6 +1,7 @@
 +++
 title = 'Rust + Nix Notes'
 date = 2024-08-12T23:31:51+01:00
+tags = ["rust", "nix"]
 +++
 
 Some nix + rust related notes after a weekend hacking around with bindgen,
