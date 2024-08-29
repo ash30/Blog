@@ -30,9 +30,10 @@ sequenceDiagram
     participant IO
 
     Platform ->> Shared: SendRequest() 
-    Note right of Shared: Coupled IO   
+    Note left of Platform: Coupled IO   
 
-    Shared ->> IO: Send() (impl)
+    Shared ->> Platform: Send()
+    Platform ->> IO: Send() (impl)
 
 </pre>
 
