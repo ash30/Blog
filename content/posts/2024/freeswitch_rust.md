@@ -27,7 +27,7 @@ fn api_start(uuid:String, url:String) -> Result<(),Error> {
 
     let (tx,rx) = tokio::sync::mpsc::unbounded_channel();
     let runtime = RT.get().ok_or(Error::RuntimeInit)?;
-    rt.spawn(async move {
+    runtime.spawn(async move {
         // Setup WS 
         loop {
             let Some(frame) = rx.recv().await else { break };
