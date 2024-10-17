@@ -49,7 +49,9 @@ populateBindgenEnv () {
     export BINDGEN_EXTRA_CLANG_ARGS
 }
 ```
-It seems the hook will pipe our native inputs into cargo/bindgen via `BINDGEN_EXTRA_CLANG_ARGS` env var, which is the direction alot of the early experimentation hit upon. It also helps bindgen find `LIBCLANG_PATH` - handy!
+It seems the hook will pipe our native inputs into cargo/bindgen via `BINDGEN_EXTRA_CLANG_ARGS` env var, which is the direction alot of the early experimentation hit upon. It also helps bindgen libclang by setting `LIBCLANG_PATH` - handy!
+
+## Local development shell
 
 The final piece is to create dev shell based on our derivation, using `inputsFrom` to copy the nativeInputs for us.
 
@@ -69,4 +71,23 @@ pkgs.mkShell {
   ];
 }
 ```
+
+## Native Libraries with headers in subfolders 
+
+In the [Wiki](https://nixos.wiki/wiki/C) they briefly mention how to handle Libraries like freeswitch that put there headers in subfolder:
+
+> However, while the $out/include folder will be included by default, it may sometimes not be enough when the lib puts the header in a subfolder (for instance, gtk2 and gtk3 uses subdirectories like $out/include/gtk-2.0 instead to avoid conflict between versions).
+> 
+> ... To deal with this kind of libraries, one can use `pkg-config`: the idea is simply to add `pkg-config` in the nativeBuildInputs, and then to start the buildPhase with:
+
+Honestly feels abit like cheating, but in order to fix the include paths for libfreeswitch we can add the following shellhook to extend what `rustPlatform.bindgenHook` sets up for us:
+
+```nix
+  NIX_CFLAGS_COMPILE="-I${fs.out}/include/freeswitch";
+  shellHook = ''
+    export BINDGEN_EXTRA_CLANG_ARGS="$BINDGEN_EXTRA_CLANG_ARGS $(pkg-config --cflags freeswitch)"
+  '';
+```
+
+This will fix both the building of the derivation and attempts to use it as a dev shell, although I do wonder if there's a more elegant solution...
 
