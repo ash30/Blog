@@ -166,8 +166,19 @@ The Connection module builds upon `Buffered` IO and introduces reading and writi
     }
 
 ```
-The `Conn` API endeavours to provide the building blocks for interacting with a HTTP based connection but ultimately leaves the decisions / process to the upper layers. Also noteworthy, we're still returning `std::Task`.
+The `Conn` API endeavours to provide the building blocks for interacting with a HTTP based connection but ultimately leaves the decisions / process to the upper layers. Also noteworthy, we're still returning `std::Task`. Here is a simplified example of what `Conn` API consumer would look like:
 
+```rust
+    // Client Send HTTP request example
+    if !conn.can_write_head() { return }
+    conn.write_head(head, body_type)?;
+    if !conn.can_write_body() { return }
+    conn.write_body(data)?;
+    conn.end_body()?
+    conn.poll_flush(cx)
+```
+
+The question for upper api layers is how to best ingest needed data and how to orchestrate the reading and writing of a connection, and so we start to see the usage of concurrency APIs ( Tokio ) and code made to service the public Hyper API.
 
 ----
 <br>
@@ -176,3 +187,4 @@ Well after all that, we're about half way up the stack, still to discover the ma
 
 The idea of this article is kinda experimental, I have no idea if other people enjoy delving into other code bases and deciphering them, so please message me via socials if this has been of interest! And yes, enjoyment comes in many forms...
 
+<br>
