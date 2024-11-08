@@ -11,18 +11,26 @@ One of the under appreciated joys of open source is the ability to study someone
 Let's build our understanding of Hyper from the bottom up, walking through some of the 'leaf' modules and see how they fit into the call flow of a typical HTTP1 request response.
 
 # Overview
-The Journey a head!
+The journey a head!
 ```
-┌──────────────┐       
-│Dispatcher    │       
-└┬────────────┬┘       
-┌▽──────────┐┌▽───────┐
-│Conn       ││Dispatch│
-└┬─────────┬┘└────────┘
-┌▽───────┐┌▽───┐       
-│Buffered││Role│       
-└────────┘└────┘
+------------ Public API ------------------
+┌────────────┐┌──────────────┐
+│Client::Conn││Client::Sender│
+└┬───────────┘└──────────────┘
+-┬--------- Private API ------------------
+ |
+┌▽─────────────┐              
+│Dispatcher    │ 
+└┬────────────┬┘              
+┌▽──────────┐┌▽───────┐       
+│Conn       ││Dispatch│       
+└┬─────────┬┘└────────┘       
+┌▽───────┐┌▽───┐              
+│Buffered││Role│ // Starting HERE!
+└────────┘└────┘              
+
 ```
+
 
 
 # Roles
