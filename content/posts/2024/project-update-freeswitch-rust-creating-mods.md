@@ -1,16 +1,16 @@
 +++
 title = "Basic Freeswitch mod with Rust"
-date = 2024-11-09T23:40:03Z
+date = 2025-01-03T23:40:03Z
 images = []
 tags = ["rust", "voip"]
 categories = []
 draft = true
 +++
 
-As I said in a previous [article]({{< ref "/posts/2024/freeswitch_rust.md" >}} "freeswitch_rust.md"), its my belief that the VOIP industry is a great fit for Rust
+As I said in a previous [article]({{< ref "/posts/2024/freeswitch_rust.md" >}} "freeswitch_rust.md"), it's my belief that the VOIP industry is a great fit for Rust
 so I've been working on a set of safe bindings for the freeswitch api, something that would allow people to 'fearlessly' extend freeswitch... 
 Its early days, but in the interest of self documentation and holding myself to account, I'm writing this article to explain my initial 
-design experiments. Enough talking then, lets show you code!
+design experiments. Enough talking then, let's show you code!
 
 ##  Classic Implementation
 ```c
@@ -50,7 +50,7 @@ impl LoadableModule for FSModule {
     }
 }
 
-#[switch_api_define("hello")]
+#[switch_api_define("hello", "SYNTAX")]
 fn hello_main(cmd:&str, _session:Option<Session>, mut stream:StreamHandle) -> switch_status_t {
     debug!(channel = SWITCH_CHANNEL_ID_SESSION; "mod hello world");
     let _ = writeln!(stream, "+OK Success");
@@ -73,22 +73,60 @@ pub trait LoadableModule {
 
 The trait provides default implementations for non used module functions, equivalent to passing Null in the classic macro's call site.
 Being able to generate the extern C code helps the sdk take responsibility for the potentially unsafe C code needed.
-Most of it is trivial boiler plate to be fair, but still its nice to not worry about it.
+Most of it is trivial boiler plate to be fair, but still it's nice to not worry about it.
 
+The other design ideas are around how to map Freeswitch's concepts to idiomatic Rust and so we can provide the productivity that Rust developers would be accustomed to. 
+For example: Freeswitch has the concept of writing to streams and uses it as a form of return value for API mods.
 
-The other niceties included in the Rust API is mapping the generalist concepts of Logging and Stream writing within Freeswitch onto their standardize counter-parts within the Rust ecosystem. SDKs are about 
-ergonomics which hopefully translate to productivity and so alot of the design decisions are about how best to map freeswitch C'ism onto modern Rust patterns. 
-
-For logging the sdk adapts the internal logger to Rust's [log](https://crates.io/crates/log) interface. The main challenge here is how do we emulate how the classic Freeswitch Macros pass a load of additional metadata to the logging functions... for now I've tried to appropriate the key value functionality of structured logging, but I'm doubtful this is going to be the preferred solution.
+```c
+   stream->write_function(stream, "+OK Success");
+```
+This one is a bit of a no brainer in my opinion, as stream reading and writing fit perfectly to the `std::io` Read and Write traits, a generalisation around synchronous IO. In doing so we then get the benefits of re-using the macros for ergonomic stream handling and output formatting.
 
 ```rust
-    debug!(channel = SWITCH_CHANNEL_ID_SESSION; "mod hello world");
+    let _ = writeln!(stream, "+OK Success");
 ```
 
-Theres a much more straight forward adaptation of freeswitch's stream writing patterns to the `std::io::Write` trait and again we then benefit from the ergonomics and end user familiarity of the `std::io` macros .
+Another common concept we have to map is logging but this one is not so straightforward due to the customised interface freeswitch has around logging. 
+Initially my thoughts were to try and ride on the shoulders of the [log](https://crates.io/crates/log) crate and implement something behind its shared interface but the question becomes how to handle all of `switch_log_printf` parameters?
+
+```c
+/*!
+  \brief Write log data to the logging engine
+  \param channel the log channel to write to
+  \param file the current file
+  \param func the current function
+  \param line the current line
+  \param userdata ununsed
+  \param level the current log level
+  \param fmt desired format
+  \param ... variable args
+  \note there are channel macros to supply the first 4 parameters (SWITCH_CHANNEL_LOG, SWITCH_CHANNEL_LOG_CLEAN, ...)
+  \see switch_types.h
+*/
+SWITCH_DECLARE(void) switch_log_printf(_In_ switch_text_channel_t channel, _In_z_ const char *file,
+									   _In_z_ const char *func, _In_ int line,
+									   _In_opt_z_ const char *userdata, _In_ switch_log_level_t level,
+									   _In_z_ _Printf_format_string_ const char *fmt, ...) PRINTF_FUNCTION(7, 8);
+```
+Things like `channel` and `userdata` are very bespoke and don't map nicely. My current design is to make use of arbitrary kv parameters of structured logging, but this feels a bit hacky and I have my doubts whether it will be the final solution.
 
 ## A Note on Entry Points 
 
-Its a little self indulgent, but I think it would be great if the whole Mod could be written in Rust. This goes counter to what usually happens for non C based mods, where atleast the initial entry point
-is kept in C to benefit from the SDK API freeswitch provides to mod writers. To use rust, it means re-implementing some of it because alot of the existing API is based on macros, which
-don't port across with bindgen. In future the project should probably cater for both.
+The production hardened freeswitch developer might be scratching their head right now, wondering why re-implement the loadable module macros?
+Experienced FreeSWITCH developers may be wondering why we’re re-implementing loadable module macros. There are two reasons for this:
+
+1.  Because we can! In certain languages, re-inventing the FFI boundary would be arduous, not so in Rust!
+    As it has a wonderful C ABI interop story. In doing so we can abstract away some of the raw pointer types required and provide a more idiomatic interface.
+
+2.  Macros don't come across in automatic bindgen created *sys crates. So the choice is to either 
+implement something or be happy with moving the C + Rust boundary down a level into the mod itself. This is what C++ mod writers 
+traditionally do: have the mod's entry point be C and just interop with classes/functions within CPP. This has the benefit/blessing of 
+using the official FS SDK which is obviously better in terms of long term code maintenance.
+
+The plan is to support both ultimately.
+
+## What's Next?
+
+It's a starting point, but there's much more to do in order to make the rust sdk come to life. The aim is to provide safe wrappers around the key freeswitch APIs but provide a safety hatch for 
+both flexibility but also because of limited time vs extensive API surface area... till next time!
