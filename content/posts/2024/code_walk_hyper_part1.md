@@ -174,7 +174,7 @@ The Connection module builds upon `Buffered` IO and introduces reading and writi
     }
 
 ```
-The `Conn` API endeavours to provide the building blocks for interacting with a HTTP based connection but ultimately leaves the decisions / process to the upper layers. Also noteworthy, we're still returning `std::Task`. Here is a simplified example of what `Conn` API consumer would look like:
+We can see the `Conn` API endeavours to provide the low level building blocks for interacting with a HTTP based connection but leaves the management of lifecycles to its the upper layers in the stack, a simplified callsite might look like:
 
 ```rust
     // Client Send HTTP request example
@@ -185,14 +185,11 @@ The `Conn` API endeavours to provide the building blocks for interacting with a 
     conn.end_body()?
     conn.poll_flush(cx)
 ```
-
-The question for upper api layers is how to best ingest needed data and how to orchestrate the reading and writing of a connection, and so we start to see the usage of concurrency APIs ( Tokio ) and code made to service the public Hyper API.
+The questions remaining for the upper layers is to how best orchestrate reads and writes for scale AND how to best expose our http connection to the external api users? Not surprisingly we start seeing the `Future` trait implemented, which gives calling code an ergonomic way to work with async IO and lays the foundation for an idiomatic public interface. 
 
 ----
+
+So we've made it! About half way up the stack, still to discover the main IO loop and how this all ties back to the public API - but don't fret, all of which is to come in part 2. 
+The idea of this article is kinda experimental, I have no idea if other people enjoy delving into other code bases and deciphering them, so please message me via socials if this has been of interest.
 <br>
-
-Well after all that, we're about half way up the stack, still to discover the main IO loop and how this all ties back to public API - all to come in part 2.
-
-The idea of this article is kinda experimental, I have no idea if other people enjoy delving into other code bases and deciphering them, so please message me via socials if this has been of interest! And yes, enjoyment comes in many forms...
-
 <br>
