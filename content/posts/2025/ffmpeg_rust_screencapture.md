@@ -2,8 +2,7 @@
 title = "OSX Screen Capture Using FFMPEG + Rust"
 date = 2025-06-12T23:37:25+01:00
 images = []
-tags = []
-categories = []
+tags = ["rust"]
 +++
 
 A short but hopefully useful update to break my streak of NOT writing anything...
