@@ -1,0 +1,90 @@
+---
+interface Props {
+  title: string;
+  pubDate: Date;
+  slug: string;
+  description: string;
+  body: string;
+}
+
+const { title, pubDate, slug, description, body } = Astro.props;
+
+// Calculate read time (~200 words per minute)
+const words = body.split(/\s+/).length;
+const readTime = Math.max(1, Math.ceil(words / 200));
+
+// Use description, or fall back to first paragraph
+const firstParagraph = body.split('\n\n')[0]?.replace(/[#*_`]/g, '').trim();
+const tagline = description || firstParagraph || '';
+
+const formattedDate = pubDate.toLocaleDateString('en-us', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<section class="latest">
+  <h2 class="label">Latest</h2>
+  <article>
+    <h3 class="title">
+      <a href={`/posts/${slug}/`}>{title}</a>
+    </h3>
+    <p class="meta">
+      {formattedDate} · {readTime} minute read
+    </p>
+    <p class="tagline">
+      {tagline} <a href={`/posts/${slug}/`}>Keep reading →</a>
+    </p>
+  </article>
+</section>
+
+<style>
+  .latest {
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid rgb(var(--gray-light));
+  }
+
+  .label {
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: rgb(var(--gray));
+    margin: 0 0 1rem 0;
+  }
+
+  .title {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.75rem;
+  }
+
+  .title a {
+    color: rgb(var(--black));
+    text-decoration: none;
+  }
+
+  .title a:hover {
+    color: var(--accent);
+  }
+
+  .meta {
+    margin: 0 0 0.5rem 0;
+    color: rgb(var(--gray));
+    font-size: 0.9rem;
+  }
+
+  .tagline {
+    margin: 0;
+    color: rgb(var(--gray-dark));
+  }
+
+  .tagline a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .tagline a:hover {
+    text-decoration: underline;
+  }
+</style>

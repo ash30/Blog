@@ -1,0 +1,24 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Astro cache
+.astro/
+
+# pnpm
+pnpm-debug.log*
+
+# npm (not used)
+package-lock.json
+npm-debug.log*
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# OS
+.DS_Store
+Thumbs.db

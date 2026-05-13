@@ -1,0 +1,50 @@
+---
+import { getCollection } from 'astro:content';
+import BaseHead from '../components/BaseHead.astro';
+import BlogPostList from '../components/BlogPostList.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import LatestPost from '../components/LatestPost.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+
+const posts = (await getCollection('blog'))
+	.filter((post) => !post.data.draft)
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const latestPost = posts[0];
+
+const postsData = posts.map((post) => ({
+	id: post.id,
+	title: post.data.title,
+	pubDate: post.data.pubDate,
+}));
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<style>
+			main {
+				width: var(--content-width);
+				max-width: var(--content-max-width);
+				margin: auto;
+				padding: 3em 1em;
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<LatestPost
+				title={latestPost.data.title}
+				pubDate={latestPost.data.pubDate}
+				slug={latestPost.id}
+				description={latestPost.data.description}
+				body={latestPost.body || ''}
+			/>
+			<BlogPostList posts={postsData} />
+		</main>
+		<Footer />
+	</body>
+</html>

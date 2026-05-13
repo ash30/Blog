@@ -1,0 +1,82 @@
+---
+interface Post {
+  id: string;
+  title: string;
+  pubDate: Date;
+}
+
+interface Props {
+  posts: Post[];
+}
+
+const { posts } = Astro.props;
+
+const postsByYear = posts.reduce<Record<string, Post[]>>((acc, post) => {
+  const year = post.pubDate.getFullYear().toString();
+  if (!acc[year]) {
+    acc[year] = [];
+  }
+  acc[year].push(post);
+  return acc;
+}, {});
+
+const years = Object.keys(postsByYear).sort((a, b) => Number(b) - Number(a));
+---
+
+<div>
+  {years.map((year) => (
+    <section class="year-section">
+      <h2 class="year-header">{year}</h2>
+      <ul class="list">
+        {postsByYear[year].map((post) => (
+          <li class="item">
+            <a href={`/posts/${post.id}/`} class="link">
+              {post.title}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  ))}
+</div>
+
+<style>
+  .year-section {
+    margin-bottom: 2.5rem;
+  }
+
+  .year-header {
+    margin: 0 0 1rem 0;
+    font-size: 1.5rem;
+    color: rgb(var(--gray));
+    border-bottom: 1px solid rgb(var(--gray-light));
+    padding-bottom: 0.5rem;
+  }
+
+  .list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .item {
+    margin-bottom: 0.75rem;
+  }
+
+  .link {
+    color: rgb(var(--black));
+    text-decoration: none;
+    font-size: 1.125rem;
+    transition: color 0.2s ease;
+  }
+
+  .link:hover {
+    color: var(--accent);
+  }
+
+  .link:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 4px;
+    border-radius: 4px;
+  }
+</style>
