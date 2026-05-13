@@ -30,8 +30,8 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 				box-shadow: var(--box-shadow);
 			}
 			.prose {
-				width: 800px;
-				max-width: calc(100% - 2em);
+				width: var(--content-width);
+				max-width: var(--content-max-width);
 				margin: auto;
 				padding: 1em;
 				color: rgb(var(--gray-dark));
